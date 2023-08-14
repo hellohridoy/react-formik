@@ -4,7 +4,7 @@ export default function YouTubeForm() {
   //useFormik take paramerer as an object
   const formik = useFormik({
     initialValues: {
-      name: "Hridoy",
+      name: "",
       email: "",
       channel: "",
     },
