@@ -138,13 +138,21 @@ export default function OldYouTubeForm() {
                     <div key={index}>
                       <Field name={`phNumber[${index}]`} />
                       {index > 0 && (
-                        <button type="button" onClick={() => remove(index)}>
+                        <button
+                          className="btn"
+                          type="button"
+                          onClick={() => remove(index)}
+                        >
                           {" "}
                           -{" "}
                         </button>
                       )}
 
-                      <button type="button" onClick={() => push("")}>
+                      <button
+                        className="btn"
+                        type="button"
+                        onClick={() => push("")}
+                      >
                         {" "}
                         +{" "}
                       </button>
