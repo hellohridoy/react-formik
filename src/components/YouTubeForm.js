@@ -1,45 +1,51 @@
 import { useFormik } from "formik";
 import React from "react";
+import { object, string, number, date, InferType } from "yup";
 
 const initialValues = {
-  name: "vbnvn",
+  name: "Hridoy",
   email: "",
   channel: "",
 };
-const onSubmit = (values) => {
-  console.log("Form data", values);
-};
-const validation = (values) => {
-  let errors = {};
+const onSubmit = (values) => {};
 
-  if (!values.name) {
-    errors.name = "Required";
-  }
+const validationSchema = object({
+  name: string().required("Required"),
+  email: string().email("Invalid Format").required("Required"),
+  channel: string().required("Required"),
+});
 
-  if (!values.email) {
-    errors.email = "Required";
-  } else if (
-    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$
-    )
-  ) {
-    errors.email = "Ivalid email format";
-  }
+// const validation = (values) => {
+//   let errors = {};
 
-  if (!values.channel) {
-    errors.channel = "Required";
-  }
+//   if (!values.name) {
+//     errors.name = "Required";
+//   }
 
-  return errors;
-};
+//   if (!values.email) {
+//     errors.email = "Required";
+//   } else if (
+//     /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(values.email)
+//   ) {
+//     errors.email = "Ivalid email format";
+//   }
+
+//   if (!values.channel) {
+//     errors.channel = "Required";
+//   }
+
+//   return errors;
+// };
 
 export default function YouTubeForm() {
   //useFormik take paramerer as an object
   const formik = useFormik({
     initialValues,
     onSubmit,
-    validate: validation,
+    //validate: validation,
+    validationSchema,
   });
-  console.log("Form console", formik.errors);
+  console.log("Visited Field", formik.touched);
   return (
     <div>
       <form onSubmit={formik.handleSubmit}>
@@ -50,9 +56,10 @@ export default function YouTubeForm() {
             id="name"
             name="name"
             onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             value={formik.values.name}
           />
-          {formik.errors.name ? (
+          {formik.touched.name && formik.errors.name ? (
             <div className="error">{formik.errors.name}</div>
           ) : null}
         </div>
@@ -66,9 +73,10 @@ export default function YouTubeForm() {
             //update values of object
             onChange={formik.handleChange}
             //pass to the from field
+            onBlur={formik.handleBlur}
             value={formik.values.email}
           />
-          {formik.errors.email ? (
+          {formik.touched.email && formik.errors.email ? (
             <div className="error">{formik.errors.email}</div>
           ) : null}
         </div>
@@ -80,9 +88,11 @@ export default function YouTubeForm() {
             id="channel"
             name="channel"
             onChange={formik.handleChange}
+            // particular field for visited information
+            onBlur={formik.handleBlur}
             value={formik.values.channel}
           />
-          {formik.errors.channel ? (
+          {formik.touched.channel && formik.errors.channel ? (
             //div for show error message and add className for css
             <div className="error">{formik.errors.channel}</div>
           ) : null}
