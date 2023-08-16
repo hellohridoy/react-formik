@@ -8,9 +8,14 @@ const initialValues = {
   channel: "",
 };
 const onSubmit = (values) => {};
-
+//validation for all field
 const validationSchema = object({
-  name: string().required("Required"),
+  // use min and max for the string controls. if 3 then ok if greter than 50 then too long
+  name: string()
+    .min(3, "too short")
+    .max(50, "too long")
+    .trim("can,t use space in username")
+    .required("Required"),
   email: string().email("Invalid Format").required("Required"),
   channel: string().required("Required"),
 });
