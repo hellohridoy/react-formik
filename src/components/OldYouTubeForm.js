@@ -7,7 +7,7 @@ import {
   FastField,
 } from "formik";
 import React from "react";
-import { object, string, number, date, InferType } from "yup";
+import { object, string } from "yup";
 import TextError from "./TextError";
 
 const initialValues = {
@@ -38,12 +38,22 @@ const validationSchema = object({
   channel: string().required("Required"),
 });
 
+const validateComments = (value) => {
+  let error;
+  if (!value) {
+    error = "Required";
+  }
+  return error;
+};
+
 export default function OldYouTubeForm() {
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={onSubmit}
+      //   validateOnChange={false}
+      //   validateOnBlur={false}
     >
       <Form>
         <div className="form-control">
@@ -68,8 +78,13 @@ export default function OldYouTubeForm() {
 
         <div className="form-control">
           <label htmlFor="comments">Comments</label>
-          <Field component="textarea" id="comments" name="comments" />
-          <ErrorMessage name="channel" />
+          <Field
+            component="textarea"
+            id="comments"
+            name="comments"
+            validate={validateComments}
+          />
+          <ErrorMessage name="comments" component={TextError} />
         </div>
 
         <div className="form-control">
